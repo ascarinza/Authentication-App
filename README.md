@@ -12,5 +12,5 @@ objectives:
 4. Create a guest tab for quick non saveable acess
 
   Sqlite3 
- 1. manage log in and encrpyt usernames
+ 1. manage log in and encrpyt passcodes
  2. Create new accounts and validate log ins
