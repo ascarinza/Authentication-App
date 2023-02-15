@@ -23,7 +23,7 @@ def login():
 
 main_window = tkinter.Tk()
 main_window.title("Login App")
-main_window.geometry("500x400")
+main_window.geometry("500x400+100+100")
 
 padd=15
 main_window['padx'] = padd
