@@ -21,8 +21,8 @@ def login():
 
 
 def resize_window(event):
-    w = main_window.winfo_screenwidth()
-    h = root_window.winfo_screenheight()
+    w = main_window
+    h = main_window
     main_window.geometry("%dx%d+0+0" % (w, h))
 
 # Window settings 
@@ -53,18 +53,18 @@ user_input = tkinter.StringVar()
 pass_input = tkinter.StringVar()
 
 # Main heading
-info_label = tkinter.Label(main_window, text="Login", font=("Arial", 20))
+info_label = customtkinter.CTkLabel(main_window, text="Login", font=("Arial", 20), text_color="dark blue", width=100, height=50, fg_color="white", corner_radius=8)
 info_label.grid(row=0, column=1, pady=20, padx=20)
 
 # Username input 
 info_user = customtkinter.CTkLabel(main_window, text="Username", font=("Arial", 20))
-info_user.grid(row=1, column=0, pady= 10, padx = 10)
+info_user.grid(row=1, column=0, pady= 10, padx = 10, sticky="e")
 user_input = tkinter.Entry(main_window, textvariable=user_input, width=30)
-user_input.grid(row=1, column=1)
+user_input.grid(row=1, column=1,)
 
 # Password input
 info_pass = customtkinter.CTkLabel(main_window, text="Password", font=("Arial", 20))
-info_pass.grid(row=2, column=0, pady= 10, padx = 10)
+info_pass.grid(row=2, column=0, pady= 10, padx = 10, sticky="e")
 pass_input = tkinter.Entry(main_window, textvariable = pass_input, show='*', width=30)
 pass_input.grid(row=2, column=1,)
 
