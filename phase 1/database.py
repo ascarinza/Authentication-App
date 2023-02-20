@@ -17,6 +17,16 @@ def validate_login(username, password):
     db.close()
     return row
         
+def user_exists(username):
+    conn = sqlite3.connect('login.sqlite')
+    c = conn.cursor()
+    c.execute("SELECT * FROM login WHERE username=?", (username,))
+    result = c.fetchone()
+    conn.close()
+    if result:
+        return True
+    else:
+        return False
 
 def create_account(username, password):
     db = sqlite3.connect("login.sqlite")
