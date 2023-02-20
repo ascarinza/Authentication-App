@@ -16,6 +16,8 @@ def create_account():
 
     if database.user_exists(username):
         messagebox.showerror('Error', 'Username already exists')
+        print(new_user_input.get())
+        print(new_pass_input.get)
     else:
         database.create_account(username, password)
         messagebox.showinfo('Info', 'Account created')
