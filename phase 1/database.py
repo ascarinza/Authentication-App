@@ -5,7 +5,8 @@ import hashlib
 def create_login_table():
     db = sqlite3.connect("login.sqlite")
     db.execute("CREATE TABLE IF NOT EXISTS login (username TEXT, password TEXT)")
-    db.execute("INSERT INTO login (username, password) VALUES ('admin', 'admin')")
+    password_hash = hashlib.sha256('admin'.encode('utf-8')).hexdigest()
+    db.execute("INSERT INTO login (username, password) VALUES ('admin', ?)", (password_hash, ))
     db.commit()
     db.close()
 
