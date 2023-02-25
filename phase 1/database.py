@@ -1,21 +1,31 @@
 import sqlite3
 from tkinter import messagebox
+import hashlib
+
 
 def create_login_table():
     db = sqlite3.connect("login.sqlite")
-    db.execute("CREATE TABLE IF NOT EXISTS login (username TEXT, password TEXT)")
-    db.execute("INSERT INTO login (username, password) VALUES ('admin', 'admin')")
-    db.commit()
+    try:
+        db.execute("CREATE TABLE IF NOT EXISTS login (username TEXT, password TEXT)")
+        db.commit()
+        password_hash = hashlib.sha256('admin'.encode('utf-8')).hexdigest()
+        db.execute("INSERT INTO login (username, password) VALUES ('admin', ?)", (password_hash, ))
+        db.commit()
+    except Exception as e:
+        print("Error creating login table: ", e)
     db.close()
 
 def validate_login(username, password):
     db = sqlite3.connect("login.sqlite")
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM login where username = ? and password = ?", (username, password))
+    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    cursor.execute("SELECT * FROM login where username = ? and password = ?", (username, password_hash))
     row = cursor.fetchone()
-    cursor.connection.commit()
+    if row is None:
+        return None
+    else:
+        return row
     db.close()
-    return row
         
 def user_exists(username):
     conn = sqlite3.connect('login.sqlite')
@@ -31,6 +41,9 @@ def user_exists(username):
 def create_account(username, password):
     db = sqlite3.connect("login.sqlite")
     cursor = db.cursor()
-    cursor.execute("INSERT INTO login (username, password) VALUES (?, ?)", (username, password))
+
+    # Store the username and password hash in the database
+    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    cursor.execute("INSERT INTO login (username, password) VALUES (?, ?)", (username, password_hash))
     cursor.connection.commit()
     db.close()

@@ -2,6 +2,11 @@ import tkinter
 import customtkinter
 import database
 from tkinter import messagebox
+import hashlib
+
+#creates login table if it doesn't exist
+database.create_login_table()
+
 
 def login():
     row = database.validate_login(user_input.get(), pass_input.get())
