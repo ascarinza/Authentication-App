@@ -1,5 +1,6 @@
 import sqlite3
 from tkinter import messagebox
+import hashlib
 
 def create_login_table():
     db = sqlite3.connect("login.sqlite")
@@ -13,6 +14,14 @@ def validate_login(username, password):
     cursor = db.cursor()
     cursor.execute("SELECT * FROM login where username = ? and password = ?", (username, password))
     row = cursor.fetchone()
+    if row is None:
+        return None
+    stored_password = row[1]
+    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    if password_hash == stored_password:
+        return row
+    else:
+        return None
     cursor.connection.commit()
     db.close()
     return row
@@ -31,6 +40,9 @@ def user_exists(username):
 def create_account(username, password):
     db = sqlite3.connect("login.sqlite")
     cursor = db.cursor()
-    cursor.execute("INSERT INTO login (username, password) VALUES (?, ?)", (username, password))
+
+    # Store the username and password hash in the database
+    password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+    cursor.execute("INSERT INTO login (username, password) VALUES (?, ?)", (username, password_hash))
     cursor.connection.commit()
     db.close()
