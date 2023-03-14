@@ -14,3 +14,6 @@ objectives:
   Sqlite3 
  1. manage log in and encrpyt passcodes
  2. Create new accounts and validate log ins
+
+
+Run using LogIn in phase 1 folder for beginner application.
