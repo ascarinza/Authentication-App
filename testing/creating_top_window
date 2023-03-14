@@ -13,15 +13,17 @@ class App(customtkinter.CTk):
         super().__init__(*args, **kwargs)
         self.geometry("500x400")
 
-        # create the toplevel window and hide it
-        self.toplevel_window = ToplevelWindow(self)
-        self.toplevel_window.withdraw()
-
         self.button_1 = customtkinter.CTkButton(self, text="open toplevel", command=self.open_toplevel)
         self.button_1.pack(side="top", padx=20, pady=20)
 
     def open_toplevel(self):
-        self.toplevel_window.deiconify()
+        self.withdraw()
+        self.toplevel_window = ToplevelWindow(self)
+        self.toplevel_window.protocol("WM_DELETE_WINDOW", self.close_app_window)
+        self.toplevel_window.focus()
+
+    def close_app_window(self):
+        self.destroy()
     
 
 if __name__ == "__main__":
